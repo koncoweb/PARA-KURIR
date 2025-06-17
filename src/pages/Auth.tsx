@@ -12,7 +12,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { toast } from '@/components/ui/use-toast';
 
 const Auth = () => {
-  const { signIn, signInWithId, signUp, user, loading } = useAuth();
+  const { signIn, signInWithEmployeeId, signUp, user, loading } = useAuth();
   const navigate = useNavigate();
   
   const [email, setEmail] = useState('');
@@ -41,9 +41,9 @@ const Auth = () => {
     try {
       let result;
       if (useIdLogin) {
-        result = await signInWithId(email, password);
+        result = await signInWithEmployeeId(email, password);
       } else {
-        result = await signIn(email, password);
+        result = await signIn({ email, password });
       }
       
       if (result.error) {
@@ -85,10 +85,13 @@ const Auth = () => {
     }
 
     try {
-      const { error } = await signUp(email, password, {
+      const { error } = await signUp({
+        email,
+        password,
         name,
         employee_id: employeeId,
-        area
+        area,
+        role: 'kurir' as const
       });
       
       if (error) {

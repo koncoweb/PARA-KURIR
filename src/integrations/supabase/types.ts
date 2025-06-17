@@ -54,6 +54,302 @@ export type Database = {
         }
         Relationships: []
       }
+      attendance_records: {
+        Row: {
+          id: string
+          courier_id: string
+          date: string
+          check_in_time: string | null
+          check_out_time: string | null
+          check_in_location_lat: number | null
+          check_in_location_lng: number | null
+          check_out_location_lat: number | null
+          check_out_location_lng: number | null
+          total_hours: number
+          status: string
+          notes: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          courier_id: string
+          date: string
+          check_in_time?: string | null
+          check_out_time?: string | null
+          check_in_location_lat?: number | null
+          check_in_location_lng?: number | null
+          check_out_location_lat?: number | null
+          check_out_location_lng?: number | null
+          total_hours?: number
+          status?: string
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          courier_id?: string
+          date?: string
+          check_in_time?: string | null
+          check_out_time?: string | null
+          check_in_location_lat?: number | null
+          check_in_location_lng?: number | null
+          check_out_location_lat?: number | null
+          check_out_location_lng?: number | null
+          total_hours?: number
+          status?: string
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_records_courier_id_fkey"
+            columns: ["courier_id"]
+            isOneToOne: false
+            referencedRelation: "courier_profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      courier_profiles: {
+        Row: {
+          id: string
+          employee_id: string
+          area: string
+          supervisor_id: string | null
+          daily_target: number
+          performance_rating: number
+          last_location_lat: number | null
+          last_location_lng: number | null
+          last_location_updated: string | null
+          is_online: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          employee_id: string
+          area: string
+          supervisor_id?: string | null
+          daily_target?: number
+          performance_rating?: number
+          last_location_lat?: number | null
+          last_location_lng?: number | null
+          last_location_updated?: string | null
+          is_online?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          employee_id?: string
+          area?: string
+          supervisor_id?: string | null
+          daily_target?: number
+          performance_rating?: number
+          last_location_lat?: number | null
+          last_location_lng?: number | null
+          last_location_updated?: string | null
+          is_online?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "courier_profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "courier_profiles_supervisor_id_fkey"
+            columns: ["supervisor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      daily_packages: {
+        Row: {
+          id: string
+          courier_id: string
+          tracking_number: string
+          recipient_name: string
+          recipient_phone: string | null
+          address: string
+          is_cod: boolean
+          cod_amount: number
+          status: string
+          scan_time: string | null
+          delivery_started_at: string | null
+          delivered_at: string | null
+          delivered_by: string | null
+          delivery_photo_url: string | null
+          pending_reason: string | null
+          returned_at: string | null
+          notes: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          courier_id: string
+          tracking_number: string
+          recipient_name: string
+          recipient_phone?: string | null
+          address: string
+          is_cod?: boolean
+          cod_amount?: number
+          status?: string
+          scan_time?: string | null
+          delivery_started_at?: string | null
+          delivered_at?: string | null
+          delivered_by?: string | null
+          delivery_photo_url?: string | null
+          pending_reason?: string | null
+          returned_at?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          courier_id?: string
+          tracking_number?: string
+          recipient_name?: string
+          recipient_phone?: string | null
+          address?: string
+          is_cod?: boolean
+          cod_amount?: number
+          status?: string
+          scan_time?: string | null
+          delivery_started_at?: string | null
+          delivered_at?: string | null
+          delivered_by?: string | null
+          delivery_photo_url?: string | null
+          pending_reason?: string | null
+          returned_at?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_packages_courier_id_fkey"
+            columns: ["courier_id"]
+            isOneToOne: false
+            referencedRelation: "courier_profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      daily_summaries: {
+        Row: {
+          id: string
+          courier_id: string
+          date: string
+          total_packages: number
+          cod_packages: number
+          non_cod_packages: number
+          delivered_packages: number
+          pending_packages: number
+          returned_packages: number
+          total_cod_amount: number
+          collected_cod_amount: number
+          performance_score: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          courier_id: string
+          date: string
+          total_packages?: number
+          cod_packages?: number
+          non_cod_packages?: number
+          delivered_packages?: number
+          pending_packages?: number
+          returned_packages?: number
+          total_cod_amount?: number
+          collected_cod_amount?: number
+          performance_score?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          courier_id?: string
+          date?: string
+          total_packages?: number
+          cod_packages?: number
+          non_cod_packages?: number
+          delivered_packages?: number
+          pending_packages?: number
+          returned_packages?: number
+          total_cod_amount?: number
+          collected_cod_amount?: number
+          performance_score?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_summaries_courier_id_fkey"
+            columns: ["courier_id"]
+            isOneToOne: false
+            referencedRelation: "courier_profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      profiles: {
+        Row: {
+          id: string
+          email: string
+          name: string
+          role: Database["public"]["Enums"]["user_role"]
+          is_active: boolean
+          phone: string | null
+          avatar_url: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          email: string
+          name: string
+          role?: Database["public"]["Enums"]["user_role"]
+          is_active?: boolean
+          phone?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          name?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          is_active?: boolean
+          phone?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -70,6 +366,7 @@ export type Database = {
         | "import_pic_data"
         | "import_kurir_data"
       approval_status: "pending" | "approved" | "rejected"
+      user_role: "master_admin" | "admin" | "pic" | "kurir"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -194,6 +491,7 @@ export const Constants = {
         "import_kurir_data",
       ],
       approval_status: ["pending", "approved", "rejected"],
+      user_role: ["master_admin", "admin", "pic", "kurir"],
     },
   },
 } as const

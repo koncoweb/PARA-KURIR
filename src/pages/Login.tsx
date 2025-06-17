@@ -14,14 +14,14 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { signInWithId } = useAuth();
+  const { signInWithEmployeeId } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const { error } = await signInWithId(id, password);
+      const { error } = await signInWithEmployeeId(id, password);
       
       if (error) {
         toast({

@@ -19,33 +19,24 @@ import {
   CheckCircle
 } from 'lucide-react';
 import PWAFeatures from '@/components/PWAFeatures';
+import { useAuth } from '@/hooks/useAuth';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
+  const { user, profile, loading, signOut } = useAuth();
 
   useEffect(() => {
-    const userData = localStorage.getItem('user') || localStorage.getItem('mockUser');
-    if (!userData) {
-      navigate('/login');
-      return;
-    }
-    
-    try {
-      const parsedUser = JSON.parse(userData);
-      setUser(parsedUser);
-    } catch (error) {
+    if (!loading && !user) {
       navigate('/login');
     }
-  }, [navigate]);
+  }, [user, loading, navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('mockUser');
+  const handleLogout = async () => {
+    await signOut();
     navigate('/login');
   };
 
-  if (!user) {
+  if (loading || !user || !profile) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -87,7 +78,7 @@ const Dashboard = () => {
     }
   };
 
-  const currentRole = rolePermissions[user.role as keyof typeof rolePermissions];
+  const currentRole = rolePermissions[profile.role as keyof typeof rolePermissions];
 
   const quickActions = [
     { 
@@ -135,7 +126,7 @@ const Dashboard = () => {
   ];
 
   const filteredActions = quickActions.filter(action => 
-    action.roles.includes(user.role)
+    action.roles.includes(profile.role)
   );
 
   return (
@@ -166,10 +157,10 @@ const Dashboard = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Settings className="h-6 w-6" />
-              Selamat Datang, {user.name}
+              Selamat Datang, {profile.name}
             </CardTitle>
             <CardDescription>
-              Role: {currentRole?.title} | ID: {user.id}
+              Role: {currentRole?.title} | ID: {profile.employee_id}
             </CardDescription>
           </CardHeader>
           <CardContent>
